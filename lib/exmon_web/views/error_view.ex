@@ -1,5 +1,5 @@
-defmodule ExmonApiWeb.ErrorView do
-  use ExmonApiWeb, :view
+defmodule ExmonWeb.ErrorView do
+  use ExmonWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

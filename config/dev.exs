@@ -1,11 +1,11 @@
 import Config
 
 # Configure your database
-config :exmon_api, ExmonApi.Repo,
+config :exmon, Exmon.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "exmon_api_dev",
+  database: "exmon_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -16,14 +16,14 @@ config :exmon_api, ExmonApi.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :exmon_api, ExmonApiWeb.Endpoint,
+config :exmon, ExmonWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "i3S6PR4p/QUMjM9s5L6QF5eRXkeiDssfi9cx9FOKfB1qVMJEyffTXYHJ3aFR8UCr",
+  secret_key_base: "k8sfPKzwG+lQQQeSjXyiy6JFxV84fscZxNlZH2tGqy7RHNX7rlBzPoQHbt2EkyR9",
   watchers: []
 
 # ## SSL Support

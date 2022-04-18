@@ -1,13 +1,13 @@
-defmodule ExmonApiWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :exmon_api
+defmodule ExmonWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :exmon
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_exmon_api_key",
-    signing_salt: "Uca97zjt"
+    key: "_exmon_key",
+    signing_salt: "kxboqlsK"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
@@ -18,7 +18,7 @@ defmodule ExmonApiWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :exmon_api,
+    from: :exmon,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
@@ -26,7 +26,7 @@ defmodule ExmonApiWeb.Endpoint do
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :exmon_api
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :exmon
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -44,5 +44,5 @@ defmodule ExmonApiWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ExmonApiWeb.Router
+  plug ExmonWeb.Router
 end

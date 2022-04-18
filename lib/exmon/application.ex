@@ -1,4 +1,4 @@
-defmodule ExmonApi.Application do
+defmodule Exmon.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -9,20 +9,20 @@ defmodule ExmonApi.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      ExmonApi.Repo,
+      Exmon.Repo,
       # Start the Telemetry supervisor
-      ExmonApiWeb.Telemetry,
+      ExmonWeb.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: ExmonApi.PubSub},
+      {Phoenix.PubSub, name: Exmon.PubSub},
       # Start the Endpoint (http/https)
-      ExmonApiWeb.Endpoint
-      # Start a worker by calling: ExmonApi.Worker.start_link(arg)
-      # {ExmonApi.Worker, arg}
+      ExmonWeb.Endpoint
+      # Start a worker by calling: Exmon.Worker.start_link(arg)
+      # {Exmon.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: ExmonApi.Supervisor]
+    opts = [strategy: :one_for_one, name: Exmon.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -30,7 +30,7 @@ defmodule ExmonApi.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    ExmonApiWeb.Endpoint.config_change(changed, removed)
+    ExmonWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

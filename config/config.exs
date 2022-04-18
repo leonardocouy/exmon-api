@@ -7,15 +7,15 @@
 # General application configuration
 import Config
 
-config :exmon_api,
-  ecto_repos: [ExmonApi.Repo]
+config :exmon,
+  ecto_repos: [Exmon.Repo]
 
 # Configures the endpoint
-config :exmon_api, ExmonApiWeb.Endpoint,
+config :exmon, ExmonWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: ExmonApiWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: ExmonApi.PubSub,
-  live_view: [signing_salt: "B6B++zli"]
+  render_errors: [view: ExmonWeb.ErrorView, accepts: ~w(json), layout: false],
+  pubsub_server: Exmon.PubSub,
+  live_view: [signing_salt: "NdoriT7J"]
 
 # Configures the mailer
 #
@@ -24,7 +24,7 @@ config :exmon_api, ExmonApiWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :exmon_api, ExmonApi.Mailer, adapter: Swoosh.Adapters.Local
+config :exmon, Exmon.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false

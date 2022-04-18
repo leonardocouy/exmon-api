@@ -1,9 +1,9 @@
-defmodule ExmonApi.MixProject do
+defmodule Exmon.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :exmon_api,
+      app: :exmon,
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule ExmonApi.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {ExmonApi.Application, []},
+      mod: {Exmon.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

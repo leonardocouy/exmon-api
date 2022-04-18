@@ -1,11 +1,11 @@
-defmodule ExmonApiWeb.Router do
-  use ExmonApiWeb, :router
+defmodule ExmonWeb.Router do
+  use ExmonWeb, :router
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ExmonApiWeb do
+  scope "/api", ExmonWeb do
     pipe_through :api
   end
 
@@ -22,7 +22,7 @@ defmodule ExmonApiWeb.Router do
     scope "/" do
       pipe_through [:fetch_session, :protect_from_forgery]
 
-      live_dashboard "/dashboard", metrics: ExmonApiWeb.Telemetry
+      live_dashboard "/dashboard", metrics: ExmonWeb.Telemetry
     end
   end
 
