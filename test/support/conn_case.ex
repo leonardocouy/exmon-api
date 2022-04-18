@@ -26,6 +26,8 @@ defmodule ExmonWeb.ConnCase do
 
       alias ExmonWeb.Router.Helpers, as: Routes
 
+      import ExmonWeb.ConnCaseHelper
+
       # The default endpoint for testing
       @endpoint ExmonWeb.Endpoint
     end

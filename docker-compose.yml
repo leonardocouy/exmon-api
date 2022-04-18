@@ -17,7 +17,6 @@ services:
     environment:
       PGUSER: postgres
       PGPASSWORD: postgres
-      PGDATABASE: exmon_dev
       PGPORT: 5432
       PGHOST: db
     ports:
