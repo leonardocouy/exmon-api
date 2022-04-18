@@ -29,7 +29,7 @@ RUN mix local.hex --force && \
   mix local.rebar --force
 
 RUN apk update \
-  && apk add --no-cache bash postgresql-client ca-certificates inotify-tools \
+  && apk add --no-cache bash make gcc libc-dev postgresql-client ca-certificates inotify-tools \
   && update-ca-certificates
 
 COPY . .
