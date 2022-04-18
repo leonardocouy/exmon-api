@@ -7,6 +7,8 @@ defmodule ExmonWeb.Router do
 
   scope "/api", ExmonWeb do
     pipe_through :api
+
+    resources "/trainers", TrainersController, only: [:create]
   end
 
   # Enables LiveDashboard only for development
@@ -37,7 +39,6 @@ defmodule ExmonWeb.Router do
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
-
 
   scope "/", ExmonWeb do
     pipe_through :api

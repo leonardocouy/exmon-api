@@ -41,7 +41,7 @@ defmodule Exmon.Trainer do
 
   defp sanitize_email(str) do
     str
-      |> String.trim()
-      |> String.downcase()
+    |> String.trim()
+    |> String.downcase()
   end
 end
