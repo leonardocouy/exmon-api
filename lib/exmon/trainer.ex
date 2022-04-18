@@ -32,7 +32,7 @@ defmodule Exmon.Trainer do
     |> update_change(:email, &sanitize_email/1)
     |> validate_required(@required_params)
     |> validate_length(:password, min: 6)
-    |> validate_format(:email, ~r/@/)
+    |> validate_format(:email, ~r/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
     |> unique_constraint(:email)
     |> put_pass_hash()
   end
