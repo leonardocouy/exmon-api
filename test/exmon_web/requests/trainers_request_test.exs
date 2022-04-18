@@ -17,10 +17,12 @@ defmodule ExmonWeb.TrainersControllerTest do
       (%{"trainer" => created_trainer} = response) = json_response(result, 201)
 
       assert result.status == 201
+
       assert %{
-        "message" => "Trainer created!",
-        "trainer" => %{"name" => "Trainer", "email" => "trainer@exmon.com"}
-      } = response
+               "message" => "Trainer created!",
+               "trainer" => %{"name" => "Trainer", "email" => "trainer@exmon.com"}
+             } = response
+
       assert created_trainer["id"] != nil
     end
 
@@ -74,7 +76,8 @@ defmodule ExmonWeb.TrainersControllerTest do
                "message" => "Trainer updated!",
                "trainer" => %{"id" => id, "name" => "Updated Trainer"}
              } = response
-      assert updated_trainer["updated_at"] >= trainer.updated_at |> NaiveDateTime.to_iso8601
+
+      assert updated_trainer["updated_at"] >= trainer.updated_at |> NaiveDateTime.to_iso8601()
     end
 
     test "when the trainer exists and the params are invalid, returns bad request with errors", %{
