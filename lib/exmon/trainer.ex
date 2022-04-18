@@ -22,8 +22,12 @@ defmodule Exmon.Trainer do
     |> apply_action(:insert)
   end
 
-  def changeset(params) do
-    %__MODULE__{}
+  def changeset(params), do: create_changeset(%__MODULE__{}, params)
+
+  def changeset(trainer, params), do: create_changeset(trainer, params)
+
+  defp create_changeset(module_or_trainer, params) do
+    module_or_trainer
     |> cast(params, @required_params)
     |> update_change(:email, &sanitize_email/1)
     |> validate_required(@required_params)
