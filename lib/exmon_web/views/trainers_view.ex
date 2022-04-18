@@ -3,6 +3,17 @@ defmodule ExmonWeb.TrainersView do
 
   alias Exmon.Trainer
 
+  def render("show.json", %{
+        trainer: %Trainer{id: id, name: name, email: email, inserted_at: inserted_at}
+      }) do
+    %{
+      id: id,
+      name: name,
+      email: email,
+      inserted_at: inserted_at
+    }
+  end
+
   def render("create.json", %{
         trainer: %Trainer{id: id, name: name, email: email, inserted_at: inserted_at}
       }) do
