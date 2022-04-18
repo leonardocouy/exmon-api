@@ -11,7 +11,7 @@ defmodule Exmon.Trainer.Get do
 
   defp get(uuid) do
     case Repo.get(Trainer, uuid) do
-      nil -> {:error, "Trainer not found!"}
+      nil -> {:error, :not_found}
       trainer -> {:ok, trainer}
     end
   end
