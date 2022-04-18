@@ -9,6 +9,12 @@ defmodule ExmonWeb.TrainersController do
     |> handle_response(conn)
   end
 
+  def show(conn, %{"id" => id}) do
+    id
+    |> Exmon.fetch_trainer()
+    |> handle_response(conn)
+  end
+
   def delete(conn, %{"id" => id}) do
     id
     |> Exmon.delete_trainer()
