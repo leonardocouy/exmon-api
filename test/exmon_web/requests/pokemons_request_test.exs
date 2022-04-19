@@ -22,12 +22,13 @@ defmodule ExmonWeb.PokemonsRequestTest do
       result = get(conn, Routes.pokemons_path(conn, :show, "pikachu"))
 
       assert result.status == 200
+
       assert %{
-        "id" => _id,
-        "name" => "pikachu",
-        "types" => ["electric"],
-        "weight" => 60
-      } = json_response(result, 200)
+               "id" => _id,
+               "name" => "pikachu",
+               "types" => ["electric"],
+               "weight" => 60
+             } = json_response(result, 200)
     end
 
     test "when the pokemon does not exist, returns 404", %{conn: conn} do

@@ -2,6 +2,9 @@ name: CI
 
 on: [push, pull_request]
 
+env:
+  MIX_ENV: test
+
 jobs:
   ci:
     runs-on: "ubuntu-20.04"
@@ -9,17 +12,30 @@ jobs:
       matrix:
         elixir: [1.13]
         otp: [24]
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: exmon_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-elixir@v1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
-      - uses: actions/cache@v1
-        id: mix-cache-lint
+      - name: Restore Dependencies, Build & Dialyzer PLTs Cache
+        uses: actions/cache@v2
         with:
-          path: deps
-          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+          path: |
+            deps
+            _build
+            priv/plts
+          key: ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
       - name: Install Mix Dependencies
         if: steps.mix-cache-lint.outputs.cache-hit != 'true'
         run: mix deps.get
@@ -27,5 +43,7 @@ jobs:
         run: mix format --check-formatted
       - name: Review Code With Credo
         run: mix credo --strict
+      - name: Setup DB
+        run: mix ecto.setup
       - name: Tests
         run: mix test
