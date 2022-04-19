@@ -8,19 +8,18 @@ defmodule Exmon.PokeApi.ClientTest do
 
   describe "get_pokemon/1" do
     test "when there is a pokemon with the given name, returns the pokemon" do
-      body = %{
-        "name" => "pikachu",
-        "weight" => 60,
-        "types" => "electric"
-      }
-
       mock(fn %{method: :get, url: @base_url <> "pikachu"} ->
         %Tesla.Env{status: 200, body: Fixtures.PokeApi.pokemon()}
       end)
 
       response = Client.get_pokemon("pikachu")
 
-      assert {:ok, body} = response
+      assert {:ok,
+              %{
+                "name" => "pikachu",
+                "weight" => 60,
+                "types" => ["electric"]
+              }} = response
     end
 
     test "when there is no pokemon with the given name, returns the error" do

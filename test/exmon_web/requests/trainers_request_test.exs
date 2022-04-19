@@ -1,4 +1,4 @@
-defmodule ExmonWeb.TrainersControllerTest do
+defmodule ExmonWeb.TrainersRequestTest do
   use ExmonWeb.ConnCase, async: true
 
   setup %{conn: conn} do
@@ -73,7 +73,7 @@ defmodule ExmonWeb.TrainersControllerTest do
 
       assert %{
                "message" => "Trainer updated!",
-               "trainer" => %{"id" => id, "name" => "Updated Trainer"}
+               "trainer" => %{"id" => ^id, "name" => "Updated Trainer"}
              } = response
 
       assert updated_trainer["updated_at"] >= trainer.updated_at |> NaiveDateTime.to_iso8601()

@@ -1,7 +1,7 @@
 defmodule Exmon.TrainerTest do
   use Exmon.DataCase
 
-  alias Exmon.{Repo, Trainer}
+  alias Exmon.Trainer
   alias Exmon.Trainer.Create
 
   describe "build/1" do
