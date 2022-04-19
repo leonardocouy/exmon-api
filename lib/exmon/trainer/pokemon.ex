@@ -26,7 +26,7 @@ defmodule Exmon.Trainer.Pokemon do
     |> apply_action(:insert)
   end
 
-  defp changeset(params) do
+  def changeset(params) do
     %__MODULE__{}
     |> cast(params, @required_params)
     |> validate_required(@required_params)
