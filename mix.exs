@@ -10,7 +10,10 @@ defmodule Exmon.MixProject do
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      preferred_cli_env: [
+        "test.watch": :test
+      ],
     ]
   end
 
@@ -46,7 +49,8 @@ defmodule Exmon.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:argon2_elixir, "~> 3.0"},
-      {:tesla, "~> 1.4"}
+      {:tesla, "~> 1.4"},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
