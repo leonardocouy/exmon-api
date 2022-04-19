@@ -38,18 +38,17 @@ defmodule ExmonWeb.TrainersControllerTest do
 
   describe "GET /trainers/:id" do
     test "when the trainer exists, returns the trainer data", %{conn: conn} do
-      %{id: id, name: name, email: email, inserted_at: inserted_at, updated_at: updated_at} =
-        create_trainer()
+      %{id: id, email: email} = create_trainer()
 
       result = get(conn, Routes.trainers_path(conn, :show, id))
 
       assert result.status == 200
 
       assert %{
-               "id" => id,
-               "name" => name,
-               "email" => email,
-               "inserted_at" => inserted_at
+               "id" => ^id,
+               "name" => _name,
+               "email" => ^email,
+               "inserted_at" => _inserted_at
              } = json_response(result, 200)
     end
 
