@@ -1,7 +1,7 @@
 defmodule Exmon.TrainerTest do
-  use Exmon.ModelCase
+  use Exmon.DataCase
 
-  alias Exmon.{Trainer, Repo}
+  alias Exmon.{Repo, Trainer}
   alias Exmon.Trainer.Create
 
   describe "build/1" do
@@ -21,9 +21,7 @@ defmodule Exmon.TrainerTest do
     test "when given params are invalid, returns error" do
       params = %{}
 
-      {:error, _} = Trainer.build(params)
-
-      assert {:error, _} = Trainer.build(params)
+      assert {:error, %Ecto.Changeset{valid?: false}} = Trainer.build(params)
     end
   end
 
@@ -38,6 +36,11 @@ defmodule Exmon.TrainerTest do
       changeset = Trainer.changeset(params)
 
       assert changeset.valid?
+      assert %{
+        name: "Trainer",
+        email: "trainer@exmon.com",
+        password: "123456"
+      } = changeset.changes
       assert changeset.changes.password_hash != nil
     end
 
@@ -51,6 +54,11 @@ defmodule Exmon.TrainerTest do
       changeset = Trainer.changeset(params)
 
       assert changeset.valid?
+      assert %{
+        name: "Trainer",
+        email: "trainer@exmon.com",
+        password: "123456"
+      } = changeset.changes
       assert changeset.changes.email == "trainer@exmon.com"
     end
 
@@ -61,10 +69,10 @@ defmodule Exmon.TrainerTest do
         password: "123456"
       }
 
-      (%{errors: errors} = changeset) = Trainer.changeset(params)
+      changeset = Trainer.changeset(params)
 
       refute changeset.valid?
-      assert [name: {"can't be blank", _}] = errors
+      assert errors_on(changeset) == %{name: ["can't be blank"]}
     end
 
     test "when given email is not present in the params, returns an invalid changeset" do
@@ -74,10 +82,10 @@ defmodule Exmon.TrainerTest do
         password: "123456"
       }
 
-      (%{errors: errors} = changeset) = Trainer.changeset(params)
+      changeset = Trainer.changeset(params)
 
       refute changeset.valid?
-      assert [email: {"can't be blank", _}] = errors
+      assert errors_on(changeset) == %{email: ["can't be blank"]}
     end
 
     test "when given password is not present in the params, returns an invalid changeset" do
@@ -87,10 +95,10 @@ defmodule Exmon.TrainerTest do
         password: nil
       }
 
-      (%{errors: errors} = changeset) = Trainer.changeset(params)
+      changeset = Trainer.changeset(params)
 
       refute changeset.valid?
-      assert [password: {"can't be blank", _}] = errors
+      assert errors_on(changeset) == %{password: ["can't be blank"]}
     end
 
     test "when given email is not in a valid format, returns an invalid changeset" do
@@ -100,10 +108,10 @@ defmodule Exmon.TrainerTest do
         password: "123456"
       }
 
-      (%{errors: errors} = changeset) = Trainer.changeset(params)
+      changeset = Trainer.changeset(params)
 
       refute changeset.valid?
-      assert [email: {"has invalid format", _}] = errors
+      assert errors_on(changeset) == %{email: ["has invalid format"]}
     end
 
     test "when given password has length less than 6, returns an invalid changeset" do
@@ -113,11 +121,10 @@ defmodule Exmon.TrainerTest do
         password: "123"
       }
 
-      (%{errors: errors} = changeset) = Trainer.changeset(params)
+      changeset = Trainer.changeset(params)
 
       refute changeset.valid?
-      assert [password: {error, _}] = changeset.errors
-      assert error =~ ~r/should be at least/
+      assert errors_on(changeset) == %{password: ["should be at least 6 character(s)"]}
     end
   end
 
@@ -135,7 +142,16 @@ defmodule Exmon.TrainerTest do
       changeset = Trainer.changeset(existing_trainer, update_params)
 
       assert changeset.valid?
-      assert changeset.changes == %{name: "Updated Trainer"}
+      assert %Ecto.Changeset{
+        changes: %{
+          name: "Updated Trainer",
+        },
+        data: %Trainer{
+          name: "Trainer",
+          email: "trainer@exmon.com",
+          password: "123456"
+        }
+      } = changeset
     end
   end
 end
