@@ -36,11 +36,13 @@ defmodule Exmon.TrainerTest do
       changeset = Trainer.changeset(params)
 
       assert changeset.valid?
+
       assert %{
-        name: "Trainer",
-        email: "trainer@exmon.com",
-        password: "123456"
-      } = changeset.changes
+               name: "Trainer",
+               email: "trainer@exmon.com",
+               password: "123456"
+             } = changeset.changes
+
       assert changeset.changes.password_hash != nil
     end
 
@@ -54,11 +56,13 @@ defmodule Exmon.TrainerTest do
       changeset = Trainer.changeset(params)
 
       assert changeset.valid?
+
       assert %{
-        name: "Trainer",
-        email: "trainer@exmon.com",
-        password: "123456"
-      } = changeset.changes
+               name: "Trainer",
+               email: "trainer@exmon.com",
+               password: "123456"
+             } = changeset.changes
+
       assert changeset.changes.email == "trainer@exmon.com"
     end
 
@@ -142,16 +146,17 @@ defmodule Exmon.TrainerTest do
       changeset = Trainer.changeset(existing_trainer, update_params)
 
       assert changeset.valid?
+
       assert %Ecto.Changeset{
-        changes: %{
-          name: "Updated Trainer",
-        },
-        data: %Trainer{
-          name: "Trainer",
-          email: "trainer@exmon.com",
-          password: "123456"
-        }
-      } = changeset
+               changes: %{
+                 name: "Updated Trainer"
+               },
+               data: %Trainer{
+                 name: "Trainer",
+                 email: "trainer@exmon.com",
+                 password: "123456"
+               }
+             } = changeset
     end
   end
 end

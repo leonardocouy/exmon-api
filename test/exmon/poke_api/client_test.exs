@@ -11,8 +11,9 @@ defmodule Exmon.PokeApi.ClientTest do
       body = %{
         "name" => "pikachu",
         "weight" => 60,
-        "types" => "electric",
+        "types" => "electric"
       }
+
       mock(fn %{method: :get, url: @base_url <> "pikachu"} ->
         %Tesla.Env{status: 200, body: Fixtures.PokeApi.pokemon()}
       end)
