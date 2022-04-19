@@ -1,5 +1,5 @@
 defmodule Exmon.Trainer.Pokemon.Create do
-  alias Exmon.{Repo, Pokemon}
+  alias Exmon.{Pokemon, Repo}
   alias Exmon.Trainer.Pokemon, as: TrainerPokemon
   alias Exmon.PokeApi.Client
 
@@ -18,9 +18,9 @@ defmodule Exmon.Trainer.Pokemon.Create do
   defp handle_response({:error, _msg} = error, _params), do: error
 
   defp create_pokemon(
-    %Pokemon{name: name, weight: weight, types: types},
-    %{"nickname" => nickname, "trainer_id" => trainer_id}
-  ) do
+         %Pokemon{name: name, weight: weight, types: types},
+         %{"nickname" => nickname, "trainer_id" => trainer_id}
+       ) do
     params = %{
       name: name,
       weight: weight,
