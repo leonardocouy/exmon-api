@@ -18,7 +18,7 @@ defmodule Exmon.PokeApi.ClientTest do
               %{
                 "name" => "pikachu",
                 "weight" => 60,
-                "types" => ["electric"]
+                "types" => [%{"type" => %{"name" => "electric" }}]
               }} = response
     end
 

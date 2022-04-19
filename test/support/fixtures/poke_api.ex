@@ -4,7 +4,13 @@ defmodule Exmon.Fixtures.PokeApi do
       "id" => 25,
       "name" => "pikachu",
       "types" => [
-        "electric"
+        %{
+          "slot" => 1,
+          "type" => %{
+            "name" => "electric",
+            "url" => "https://pokeapi.co/api/v2/type/13/"
+          }
+        }
       ],
       "weight" => 60
     }
