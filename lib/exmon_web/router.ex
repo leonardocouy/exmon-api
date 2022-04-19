@@ -9,7 +9,7 @@ defmodule ExmonWeb.Router do
     pipe_through :api
 
     resources "/trainers", TrainersController, only: [:create, :show, :update, :delete]
-    resources "/trainer_pokemons", TrainerPokemonsController, only: [:create]
+    resources "/trainer_pokemons", TrainerPokemonsController, only: [:create, :delete]
 
     get "/pokemons/:name", PokemonsController, :show
   end
