@@ -65,7 +65,8 @@ defmodule ExmonWeb.TrainerPokemonsView do
           types: types,
           nickname: nickname,
           trainer_id: trainer_id,
-          inserted_at: inserted_at
+          inserted_at: inserted_at,
+          updated_at: updated_at
         }
       }) do
     %{
@@ -77,7 +78,8 @@ defmodule ExmonWeb.TrainerPokemonsView do
         types: types,
         nickname: nickname,
         trainer_id: trainer_id,
-        inserted_at: inserted_at
+        inserted_at: inserted_at,
+        updated_at: updated_at
       }
     }
   end
