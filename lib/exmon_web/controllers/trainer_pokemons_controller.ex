@@ -9,6 +9,12 @@ defmodule ExmonWeb.TrainerPokemonsController do
     |> handle_response(conn, "create.json", :created)
   end
 
+  def show(conn, %{"id" => id}) do
+    id
+    |> Exmon.fetch_trainer_pokemon()
+    |> handle_response(conn, "show.json", :ok)
+  end
+
   def delete(conn, %{"id" => id}) do
     id
     |> Exmon.delete_trainer_pokemon()
