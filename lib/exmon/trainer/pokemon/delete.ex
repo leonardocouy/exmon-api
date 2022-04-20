@@ -1,21 +1,11 @@
 defmodule Exmon.Trainer.Pokemon.Delete do
-  alias Ecto.UUID
   alias Exmon.Repo
-  alias Exmon.Trainer.Pokemon, as: TrainerPokemon
+  alias Exmon.Trainer.Pokemon.Get
 
   def call(id) do
-    case UUID.cast(id) do
-      :error -> {:error, "Invalid UUID"}
-      {:ok, uuid} -> delete(uuid)
+    case Get.call(id) do
+      {:ok, trainer_pokemon} -> Repo.delete(trainer_pokemon)
+      {:error, reason} -> {:error, reason}
     end
   end
-
-  defp delete(uuid) do
-    case fetch_pokemon(uuid) do
-      nil -> {:error, {:not_found, "Trainer Pokemon not found!"}}
-      pokemon -> Repo.delete(pokemon)
-    end
-  end
-
-  defp fetch_pokemon(uuid), do: Repo.get(TrainerPokemon, uuid)
 end

@@ -1,20 +1,11 @@
 defmodule Exmon.Trainer.Delete do
-  alias Ecto.UUID
-  alias Exmon.{Repo, Trainer}
+  alias Exmon.Repo
+  alias Exmon.Trainer.Get
 
   def call(id) do
-    case UUID.cast(id) do
-      :error -> {:error, "Invalid UUID"}
-      {:ok, uuid} -> delete(uuid)
+    case Get.call(id) do
+      {:ok, trainer} -> Repo.delete(trainer)
+      {:error, reason} -> {:error, reason}
     end
   end
-
-  defp delete(uuid) do
-    case fetch_trainer(uuid) do
-      nil -> {:error, {:not_found, "Trainer not found!"}}
-      trainer -> Repo.delete(trainer)
-    end
-  end
-
-  defp fetch_trainer(uuid), do: Repo.get(Trainer, uuid)
 end
