@@ -33,7 +33,7 @@ defmodule ExmonWeb.TrainerPokemonsController do
     |> render(view, pokemon: pokemon)
   end
 
-  defp handle_response({:error, :not_found} = error, _conn, _view, _status), do: error
+  defp handle_response({:error, {:not_found, _message}} = error, _conn, _view, _status), do: error
 
   defp handle_response({:error, _changeset} = error, _conn, _view, _status), do: error
 

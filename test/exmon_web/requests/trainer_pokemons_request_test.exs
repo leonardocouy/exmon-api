@@ -80,7 +80,10 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
     test "when the trainer pokemon does not exist, returns 404", %{conn: conn} do
       result = get(conn, Routes.trainer_pokemons_path(conn, :show, Ecto.UUID.generate()))
 
-      assert result.status == 404
+      assert %Plug.Conn{
+               status: 404,
+               resp_body: "Trainer Pokemon not found!"
+             } = result
     end
   end
 
@@ -129,7 +132,10 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
           update_params
         )
 
-      assert result.status == 404
+      assert %Plug.Conn{
+               status: 404,
+               resp_body: "Trainer Pokemon not found!"
+             } = result
     end
   end
 
@@ -145,7 +151,10 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
     test "when the trainer pokemons does not exist, returns 404", %{conn: conn} do
       result = delete(conn, Routes.trainer_pokemons_path(conn, :show, Ecto.UUID.generate()))
 
-      assert result.status == 404
+      assert %Plug.Conn{
+               status: 404,
+               resp_body: "Trainer Pokemon not found!"
+             } = result
     end
   end
 

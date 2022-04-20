@@ -55,7 +55,10 @@ defmodule ExmonWeb.TrainersRequestTest do
     test "when the trainer does not exist, returns 404", %{conn: conn} do
       result = get(conn, Routes.trainers_path(conn, :show, Ecto.UUID.generate()))
 
-      assert result.status == 404
+      assert %Plug.Conn{
+               status: 404,
+               resp_body: "Trainer not found!"
+             } = result
     end
   end
 
@@ -96,7 +99,10 @@ defmodule ExmonWeb.TrainersRequestTest do
 
       result = put(conn, Routes.trainers_path(conn, :update, Ecto.UUID.generate()), update_params)
 
-      assert result.status == 404
+      assert %Plug.Conn{
+               status: 404,
+               resp_body: "Trainer not found!"
+             } = result
     end
   end
 
@@ -112,7 +118,10 @@ defmodule ExmonWeb.TrainersRequestTest do
     test "when the trainer does not exist, returns 404", %{conn: conn} do
       result = delete(conn, Routes.trainers_path(conn, :delete, Ecto.UUID.generate()))
 
-      assert result.status == 404
+      assert %Plug.Conn{
+               status: 404,
+               resp_body: "Trainer not found!"
+             } = result
     end
   end
 

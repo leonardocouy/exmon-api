@@ -29,7 +29,7 @@ defmodule Exmon.PokeApi.ClientTest do
 
       response = Client.get_pokemon("invalid_pokemon")
 
-      assert {:error, :not_found} = response
+      assert {:error, {:not_found, "Pokemon not found in PokeAPI"}} = response
     end
 
     test "when there is an unexpected error, returns the error" do

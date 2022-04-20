@@ -1,10 +1,10 @@
 defmodule ExmonWeb.FallbackController do
   use ExmonWeb, :controller
 
-  def call(conn, {:error, :not_found}) do
+  def call(conn, {:error, {:not_found, message}}) do
     conn
     |> put_status(:not_found)
-    |> text("")
+    |> text(message)
   end
 
   def call(conn, {:error, result}) do

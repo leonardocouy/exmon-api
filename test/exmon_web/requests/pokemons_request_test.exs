@@ -38,7 +38,10 @@ defmodule ExmonWeb.PokemonsRequestTest do
 
       result = get(conn, Routes.pokemons_path(conn, :show, "invalid_pokemon"))
 
-      assert result.status == 404
+      assert %Plug.Conn{
+               status: 404,
+               resp_body: "Pokemon not found in PokeAPI"
+             } = result
     end
 
     test "when pokeapi raise an unexpected error, returns 400", %{conn: conn} do
