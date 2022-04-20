@@ -20,12 +20,6 @@ defmodule Exmon.Trainer do
 
   @required_params [:name, :password, :email]
 
-  def build(params) do
-    params
-    |> changeset()
-    |> apply_action(:insert)
-  end
-
   def changeset(params), do: create_changeset(%__MODULE__{}, params)
 
   def changeset(trainer, params), do: create_changeset(trainer, params)
@@ -37,7 +31,7 @@ defmodule Exmon.Trainer do
     |> validate_required(@required_params)
     |> validate_length(:password, min: 6)
     |> validate_format(:email, ~r/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, message: "Email already exists")
     |> put_pass_hash()
   end
 

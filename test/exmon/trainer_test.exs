@@ -4,27 +4,6 @@ defmodule Exmon.TrainerTest do
   alias Exmon.Trainer
   alias Exmon.Trainer.Create
 
-  describe "build/1" do
-    test "when given params are valid, builds struct successfully" do
-      params = %{
-        name: "Trainer",
-        email: "trainer@exmon.com",
-        password: "123456"
-      }
-
-      {:ok, trainer} = Trainer.build(params)
-
-      assert %Trainer{name: "Trainer", email: "trainer@exmon.com", password: "123456"} = trainer
-      assert trainer.password_hash != nil
-    end
-
-    test "when given params are invalid, returns error" do
-      params = %{}
-
-      assert {:error, %Ecto.Changeset{valid?: false}} = Trainer.build(params)
-    end
-  end
-
   describe "changeset/1" do
     test "when given params is valid, returns a valid changeset" do
       params = %{
