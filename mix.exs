@@ -50,7 +50,8 @@ defmodule Exmon.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:argon2_elixir, "~> 3.0"},
       {:tesla, "~> 1.4"},
-      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:guardian, "~> 2.0"}
     ]
   end
 
