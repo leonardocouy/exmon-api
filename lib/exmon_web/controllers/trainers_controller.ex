@@ -1,12 +1,17 @@
 defmodule ExmonWeb.TrainersController do
   use ExmonWeb, :controller
 
+  alias ExmonWeb.Auth.Guardian
+
   action_fallback ExmonWeb.FallbackController
 
   def create(conn, params) do
-    params
-    |> Exmon.create_trainer()
-    |> handle_response(conn, "create.json", :created)
+    with {:ok, trainer} <- Exmon.create_trainer(params),
+         {:ok, token, claims} <- Guardian.encode_and_sign(trainer) do
+      conn
+      |> put_status(:created)
+      |> render("create.json", %{trainer: trainer, token: token})
+    end
   end
 
   def show(conn, %{"id" => id}) do

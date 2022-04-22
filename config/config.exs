@@ -41,6 +41,6 @@ config :phoenix, :json_library, Jason
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
 
-config :exmon, Exmon.Guardian,
-       issuer: "exmon",
-       secret_key: "75nHKH697/Jna7kk2ZweVrEVENFoeKnG11yCUwLj7bTYNm5X+sZaefxAak6Jid5U"
+config :exmon, ExmonWeb.Auth.Guardian,
+  issuer: "exmon",
+  secret_key: "75nHKH697/Jna7kk2ZweVrEVENFoeKnG11yCUwLj7bTYNm5X+sZaefxAak6Jid5U"

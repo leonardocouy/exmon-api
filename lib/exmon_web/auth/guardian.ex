@@ -1,4 +1,4 @@
-defmodule Exmon.Guardian do
+defmodule ExmonWeb.Auth.Guardian do
   use Guardian, otp_app: :exmon
 
   def subject_for_token(trainer, _claims) do
