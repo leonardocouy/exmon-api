@@ -1,6 +1,12 @@
 defmodule ExmonWeb.FallbackController do
   use ExmonWeb, :controller
 
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(:unauthorized)
+    |> text("")
+  end
+
   def call(conn, {:error, {:not_found, message}}) do
     conn
     |> put_status(:not_found)
