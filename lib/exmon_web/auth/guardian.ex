@@ -29,7 +29,7 @@ defmodule ExmonWeb.Auth.Guardian do
   end
 
   defp create_token(trainer) do
-    {:ok, token, claims} = encode_and_sign(trainer)
+    {:ok, token, _claims} = encode_and_sign(trainer)
     {:ok, token}
   end
 end
