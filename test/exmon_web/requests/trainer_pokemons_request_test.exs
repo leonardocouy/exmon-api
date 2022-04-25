@@ -5,23 +5,11 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
   alias Exmon.Trainer.Pokemon, as: TrainerPokemon
 
   import Tesla.Mock
-  import ExmonWeb.Auth.Guardian
 
   @base_poke_api_url "https://pokeapi.co/api/v2/pokemon/"
 
-  setup %{conn: conn} do
-    trainer = create_trainer()
-    {:ok, token, _claims} = encode_and_sign(trainer)
-
-    conn =
-      conn
-      |> put_req_header("accept", "application/json")
-      |> put_req_header("authorization", "Bearer #{token}")
-
-    {:ok, conn: conn, trainer: trainer}
-  end
-
   describe "POST /trainer_pokemons" do
+    @tag :with_authenticated_user
     test "when params is valid, returns the created trainer with 201", %{
       conn: conn,
       trainer: %{id: trainer_id}
@@ -52,6 +40,7 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
              } = json_response(result, 201)
     end
 
+    @tag :with_authenticated_user
     test "when params is invalid, returns bad request with errors", %{
       conn: conn,
       trainer: _trainer
@@ -70,6 +59,7 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
   end
 
   describe "GET /trainer_pokemons/:id" do
+    @tag :with_authenticated_user
     test "when the trainer pokemon exists, returns the trainer pokemon data", %{
       conn: conn,
       trainer: %{id: trainer_id}
@@ -89,6 +79,7 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
              } = json_response(result, 200)
     end
 
+    @tag :with_authenticated_user
     test "when the trainer pokemon does not exist, returns 404", %{conn: conn, trainer: _trainer} do
       result = get(conn, Routes.trainer_pokemons_path(conn, :show, Ecto.UUID.generate()))
 
@@ -100,6 +91,7 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
   end
 
   describe "PUT /trainers/:id" do
+    @tag :with_authenticated_user
     test "when the trainer pokemon exists and the params are valid, returns the updated trainer pokemon data",
          %{
            conn: conn,
@@ -122,6 +114,7 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
                trainer_pokemon.updated_at |> NaiveDateTime.to_iso8601()
     end
 
+    @tag :with_authenticated_user
     test "when the trainer pokemon exists and the params are invalid, returns bad request with errors",
          %{
            conn: conn,
@@ -136,6 +129,7 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
       assert json_response(result, 400) != %{}
     end
 
+    @tag :with_authenticated_user
     test "when the trainer does not exist, returns 404", %{conn: conn, trainer: _trainer} do
       update_params = %{}
 
@@ -154,6 +148,7 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
   end
 
   describe "DELETE /trainer_pokemons/:id" do
+    @tag :with_authenticated_user
     test "when the trainer pokemon exists, returns the trainer pokemon data", %{
       conn: conn,
       trainer: %{id: trainer_id}
@@ -165,6 +160,7 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
       assert result.status == 204
     end
 
+    @tag :with_authenticated_user
     test "when the trainer pokemons does not exist, returns 404", %{conn: conn, trainer: _trainer} do
       result = delete(conn, Routes.trainer_pokemons_path(conn, :show, Ecto.UUID.generate()))
 
@@ -187,12 +183,5 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
       |> Repo.insert()
 
     trainer_pokemon
-  end
-
-  defp create_trainer do
-    {:ok, trainer} =
-      Exmon.create_trainer(%{name: "Trainer", email: "trainer@exmon.com", password: "123456"})
-
-    trainer
   end
 end

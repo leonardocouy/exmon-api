@@ -1,18 +1,5 @@
 defmodule ExmonWeb.TrainersRequestTest do
   use ExmonWeb.ConnCase, async: true
-  import ExmonWeb.Auth.Guardian
-
-  setup %{conn: conn} do
-    trainer = create_trainer()
-    {:ok, token, _claims} = encode_and_sign(trainer)
-
-    conn =
-      conn
-      |> put_req_header("accept", "application/json")
-      |> put_req_header("authorization", "Bearer #{token}")
-
-    {:ok, conn: conn, trainer: trainer}
-  end
 
   describe "POST /trainers" do
     test "when params is valid, returns the created trainer with 201", %{conn: conn} do
@@ -43,6 +30,7 @@ defmodule ExmonWeb.TrainersRequestTest do
   end
 
   describe "GET /trainers/:id" do
+    @tag :with_authenticated_user
     test "when the trainer exists, returns the trainer data", %{conn: conn, trainer: trainer} do
       %{id: id, email: email} = trainer
 
@@ -58,6 +46,7 @@ defmodule ExmonWeb.TrainersRequestTest do
              } = json_response(result, 200)
     end
 
+    @tag :with_authenticated_user
     test "when the trainer does not exist, returns 404", %{conn: conn, trainer: _trainer} do
       result = get(conn, Routes.trainers_path(conn, :show, Ecto.UUID.generate()))
 
@@ -69,6 +58,7 @@ defmodule ExmonWeb.TrainersRequestTest do
   end
 
   describe "PUT /trainers/:id" do
+    @tag :with_authenticated_user
     test "when the trainer exists and the params are valid, returns the updated trainer data", %{
       conn: conn,
       trainer: trainer
@@ -89,6 +79,7 @@ defmodule ExmonWeb.TrainersRequestTest do
       assert updated_trainer["updated_at"] >= trainer.updated_at |> NaiveDateTime.to_iso8601()
     end
 
+    @tag :with_authenticated_user
     test "when the trainer exists and the params are invalid, returns bad request with errors", %{
       conn: conn,
       trainer: trainer
@@ -102,6 +93,7 @@ defmodule ExmonWeb.TrainersRequestTest do
       assert json_response(result, 400) != %{}
     end
 
+    @tag :with_authenticated_user
     test "when the trainer does not exist, returns 404", %{conn: conn, trainer: _trainer} do
       update_params = %{}
 
@@ -115,6 +107,7 @@ defmodule ExmonWeb.TrainersRequestTest do
   end
 
   describe "DELETE /trainers/:id" do
+    @tag :with_authenticated_user
     test "when the trainer exists, returns the trainer data", %{conn: conn, trainer: trainer} do
       %{id: id} = trainer
 
@@ -123,6 +116,7 @@ defmodule ExmonWeb.TrainersRequestTest do
       assert result.status == 204
     end
 
+    @tag :with_authenticated_user
     test "when the trainer does not exist, returns 404", %{conn: conn, trainer: _trainer} do
       result = delete(conn, Routes.trainers_path(conn, :delete, Ecto.UUID.generate()))
 
@@ -131,12 +125,5 @@ defmodule ExmonWeb.TrainersRequestTest do
                resp_body: "Trainer not found!"
              } = result
     end
-  end
-
-  defp create_trainer do
-    {:ok, trainer} =
-      Exmon.create_trainer(%{name: "Trainer", email: "trainer@exmon.com", password: "123456"})
-
-    trainer
   end
 end
