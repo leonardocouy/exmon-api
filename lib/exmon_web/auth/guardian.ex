@@ -1,5 +1,5 @@
 defmodule ExmonWeb.Auth.Guardian do
-  alias Exmon.{Trainer, Repo}
+  alias Exmon.{Repo, Trainer}
 
   use Guardian, otp_app: :exmon
 
@@ -11,7 +11,7 @@ defmodule ExmonWeb.Auth.Guardian do
   def resource_from_claims(claims) do
     claims
     |> Map.get("sub")
-    |> ExMon.fetch_trainer()
+    |> Exmon.fetch_trainer()
   end
 
   def authenticate(%{"email" => email, "password" => password}) do

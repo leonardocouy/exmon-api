@@ -5,16 +5,27 @@ defmodule ExmonWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug ExmonWeb.Auth.Pipeline
+  end
+
+  # Unautheticated Routes
   scope "/api", ExmonWeb do
     pipe_through :api
 
-    resources "/trainers", TrainersController, only: [:create, :show, :update, :delete]
+    post "/trainers", TrainersController, :create
     post "/trainers/sign_in", TrainersController, :sign_in
+    get "/pokemons/:name", PokemonsController, :show
+  end
+
+  # Authenticated routes
+  scope "/api", ExmonWeb do
+    pipe_through [:api, :auth]
+
+    resources "/trainers", TrainersController, only: [:show, :update, :delete]
 
     resources "/trainer_pokemons", TrainerPokemonsController,
       only: [:create, :show, :update, :delete]
-
-    get "/pokemons/:name", PokemonsController, :show
   end
 
   # Enables LiveDashboard only for development

@@ -44,3 +44,7 @@ import_config "#{config_env()}.exs"
 config :exmon, ExmonWeb.Auth.Guardian,
   issuer: "exmon",
   secret_key: "75nHKH697/Jna7kk2ZweVrEVENFoeKnG11yCUwLj7bTYNm5X+sZaefxAak6Jid5U"
+
+config :exmon, ExmonWeb.Auth.Pipeline,
+  module: ExmonWeb.Auth.Guardian,
+  error_handler: ExmonWeb.Auth.ErrorHandler
