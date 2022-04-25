@@ -35,24 +35,24 @@ defmodule ExmonWeb.ConnCase do
 
   setup tags do
     Exmon.DataCase.setup_sandbox(tags)
-    conn = Phoenix.ConnTest.build_conn()
-    conn = Plug.Conn.put_req_header(conn, "accept", "application/json")
 
-    cond do
-      Map.has_key?(tags, :with_authenticated_user) ->
-        import ExmonWeb.Auth.Guardian
-
-        trainer = create_trainer()
-        {:ok, token, _claims} = encode_and_sign(trainer)
-
-        conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer #{token}")
-
-        {:ok, conn: conn, trainer: trainer}
-
-      true ->
-        {:ok, conn: conn, trainer: nil}
-    end
+    Phoenix.ConnTest.build_conn()
+    |> Plug.Conn.put_req_header("accept", "application/json")
+    |> build_setup_data(tags)
   end
+
+  defp build_setup_data(conn, tags) when is_map_key(tags, :with_authenticated_user) do
+    import ExmonWeb.Auth.Guardian
+
+    trainer = create_trainer()
+    {:ok, token, _claims} = encode_and_sign(trainer)
+
+    conn = conn |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+
+    {:ok, conn: conn, trainer: trainer}
+  end
+
+  defp build_setup_data(conn, _tags), do: {:ok, conn: conn, trainer: nil}
 
   defp create_trainer do
     {:ok, trainer} =

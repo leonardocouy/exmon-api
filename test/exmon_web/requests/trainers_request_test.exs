@@ -55,6 +55,12 @@ defmodule ExmonWeb.TrainersRequestTest do
                resp_body: "Trainer not found!"
              } = result
     end
+
+    test "when the user is not authenticated, returns 401", %{conn: conn, trainer: _trainer} do
+      result = get(conn, Routes.trainers_path(conn, :show, Ecto.UUID.generate()))
+
+      assert %Plug.Conn{status: 401} = result
+    end
   end
 
   describe "PUT /trainers/:id" do
@@ -104,6 +110,12 @@ defmodule ExmonWeb.TrainersRequestTest do
                resp_body: "Trainer not found!"
              } = result
     end
+
+    test "when the user is not authenticated, returns 401", %{conn: conn, trainer: _trainer} do
+      result = put(conn, Routes.trainers_path(conn, :update, Ecto.UUID.generate()), %{})
+
+      assert %Plug.Conn{status: 401} = result
+    end
   end
 
   describe "DELETE /trainers/:id" do
@@ -124,6 +136,12 @@ defmodule ExmonWeb.TrainersRequestTest do
                status: 404,
                resp_body: "Trainer not found!"
              } = result
+    end
+
+    test "when the user is not authenticated, returns 401", %{conn: conn, trainer: _trainer} do
+      result = delete(conn, Routes.trainers_path(conn, :delete, Ecto.UUID.generate()))
+
+      assert %Plug.Conn{status: 401} = result
     end
   end
 end

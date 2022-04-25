@@ -56,6 +56,12 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
       assert result.status == 400
       assert json_response(result, 400) != %{}
     end
+
+    test "when the user is not authenticated, returns 401", %{conn: conn, trainer: _trainer} do
+      result = post(conn, Routes.trainer_pokemons_path(conn, :create), %{})
+
+      assert %Plug.Conn{status: 401} = result
+    end
   end
 
   describe "GET /trainer_pokemons/:id" do
@@ -87,6 +93,12 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
                status: 404,
                resp_body: "Trainer Pokemon not found!"
              } = result
+    end
+
+    test "when the user is not authenticated, returns 401", %{conn: conn, trainer: _trainer} do
+      result = get(conn, Routes.trainer_pokemons_path(conn, :show, Ecto.UUID.generate()))
+
+      assert %Plug.Conn{status: 401} = result
     end
   end
 
@@ -145,6 +157,17 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
                resp_body: "Trainer Pokemon not found!"
              } = result
     end
+
+    test "when the user is not authenticated, returns 401", %{conn: conn, trainer: _trainer} do
+      result =
+        put(
+          conn,
+          Routes.trainer_pokemons_path(conn, :update, Ecto.UUID.generate()),
+          %{}
+        )
+
+      assert %Plug.Conn{status: 401} = result
+    end
   end
 
   describe "DELETE /trainer_pokemons/:id" do
@@ -168,6 +191,12 @@ defmodule ExmonWeb.TrainerPokemonsRequestTest do
                status: 404,
                resp_body: "Trainer Pokemon not found!"
              } = result
+    end
+
+    test "when the user is not authenticated, returns 401", %{conn: conn, trainer: _trainer} do
+      result = delete(conn, Routes.trainer_pokemons_path(conn, :show, Ecto.UUID.generate()))
+
+      assert %Plug.Conn{status: 401} = result
     end
   end
 
